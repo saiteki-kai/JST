@@ -74,7 +74,10 @@ public:
     int parse_args(int argc, char ** argv, int&  model_status);
   	int parse_args_est(int argc, char ** argv, model * pmodel);
 	int parse_args_inf(int argc, char ** argv, Inference * pmodel_inf);
-    
+
+    // set params from command line
+    void set_params(int argc, char ** argv);
+
     // read configuration file
 	int read_config_file(string configfile);
   

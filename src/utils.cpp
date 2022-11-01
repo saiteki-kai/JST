@@ -107,7 +107,6 @@ int utils::parse_args(int argc, char ** argv, int&  model_status) {
 }
 
 
-
 int utils::parse_args_est(int argc, char ** argv, model * pmodel) {
 
     int i = 1;
@@ -124,7 +123,9 @@ int utils::parse_args_est(int argc, char ** argv, model * pmodel) {
 		if (read_config_file(configfile)) {
 			return 1;
 		}
-	}
+	} else {
+        set_params(argc, argv);
+    }
 	
 	if (wordmapfile != "")   
 		pmodel->wordmapfile = wordmapfile;
@@ -188,7 +189,9 @@ int utils::parse_args_inf(int argc, char ** argv, Inference * pmodel_inf) {
 	}
 	if (configfile != "") {
 		if (read_config_file(configfile)) return 1;
-	}
+	} else {
+        set_params(argc, argv);
+    }
     
 	if (wordmapfile != "") 
 		pmodel_inf->wordmapfile = wordmapfile;
@@ -246,7 +249,51 @@ int utils::parse_args_inf(int argc, char ** argv, Inference * pmodel_inf) {
 
     return 0;
 }
-   
+
+
+void utils::set_params(int argc, char ** argv) {
+    int i = 1;
+    while (i < argc) {
+        string arg = argv[i];
+
+        if (arg == "-data_dir") {
+            data_dir = argv[++i];
+        } else if (arg == "-result_dir") {
+            result_dir = argv[++i];
+        } else if (arg == "-model_dir") {
+            model_dir = argv[++i];
+        } else if (arg == "-nsentiLabs") {
+            numSentiLabs = atoi(argv[++i]);
+        } else if (arg == "-ntopics") {
+            numTopics = atoi(argv[++i]);
+        } else if (arg == "-niters") {
+            niters = atoi(argv[++i]);
+        } else if (arg == "-savestep") {
+            savestep = atoi(argv[++i]);
+        } else if (arg == "-twords") {
+            twords = atoi(argv[++i]);
+        } else if (arg == "-updateParaStep") {
+            updateParaStep = atoi(argv[++i]);
+        } else if (arg == "-datasetFile") {
+            datasetFile = argv[++i];
+        } else if (arg == "-sentiFile") {
+            sentiLexFile = argv[++i];
+        } else if (arg == "-vocab") {
+            wordmapfile = argv[++i];
+        } else if (arg == "-alpha") {
+            alpha = atof(argv[++i]);
+        } else if (arg == "-beta") {
+            beta = atof(argv[++i]);
+        } else if (arg == "-gamma") {
+            gamma = atof(argv[++i]);
+        } else if (arg == "-model") {
+            model_name = argv[++i];
+        }
+
+        i++;
+    }
+}
+
 
 int utils::read_config_file(string filename) {
 
